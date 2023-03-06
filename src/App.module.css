@@ -1,0 +1,10 @@
+.main body,* {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+@layer components {
+    :root {
+        --swiper-pagination-color: #fccfdc;
+    }
+}
