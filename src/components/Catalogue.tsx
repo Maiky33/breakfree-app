@@ -100,6 +100,10 @@ const Catalogue = () => {
   };
 
   const selectionActive = (selected: IFilters) => {
+
+    setSearch('')
+    localStorage.setItem('search', '')
+
     const newSelect = select.map((item : IFilters) => {
       if (item.id === selected.id) {
         return {
@@ -115,10 +119,7 @@ const Catalogue = () => {
     });
     setSelect(newSelect);
     setFilterActive(selected.id);
-    setSearch('')
-    localStorage.setItem('search', '')
-
-    
+        
     filterProducts()
   };
 
