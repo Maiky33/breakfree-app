@@ -34,5 +34,32 @@ export const CatalogueItems: ICatalogue[] = [
     price: "15.000",
     favorite: false,
     name:'Esqueleto'
+  },{
+    id: 5,
+    image: FirstClothe,
+    price: "20.000",
+    favorite: false,
+    name:'Camisa Manga larga'
+  },
+  {
+    image: SecondClothe,
+    id: 6,
+    price: "15.000",
+    favorite: false,
+    name:'Camisa'
+  },
+  {
+    image: ThreeClothe,
+    id: 7,
+    price: "20.000",
+    favorite: false,
+    name:'Camisa Manga larga'
+  },
+  {
+    image: FourClothe,
+    id: 8,
+    price: "15.000",
+    favorite: false,
+    name:'Esqueleto'
   }
 ];

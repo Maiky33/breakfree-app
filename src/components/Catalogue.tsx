@@ -129,6 +129,7 @@ const Catalogue = () => {
 
   useEffect(() => {
     filterProducts()
+    // eslint-disable-next-line
   },[select])
 
 

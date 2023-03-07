@@ -5,11 +5,12 @@
 }
 
 .Slider{    
+    position: relative;
     max-width: 1400px;
     width: calc(100% - 120px);
     max-height: 320px;
     height: 325px;
-    z-index: -1;
+    z-index: -1 !important;
 
     background-color: #000000d3;
     border-radius: 50px;
