@@ -6,6 +6,7 @@ import { FiltersItems } from "./functions/Filters";
 import useLocalStorage from "use-local-storage";
 
 import Styles from "./Catalogue.module.css";
+import { async } from "q";
 
 export interface IFilters {
   id: string;
@@ -26,8 +27,10 @@ const Catalogue = () => {
   //Metemos el catalogo en un state para poder modificarlo.
   const [Fav, setFav] = useState<ICatalogue[]>(CatalogueItems);
   // Codigo para el funcionamiento de los filtros.
+
   const [select, setSelect] = useState<IFilters[]>(FiltersItems);
   const [filterActive, setFilterActive] = useState("Todo");
+
   const [filteredTargets, setfilteredTargets] = useState <ICatalogue[]> ([]);
 
   //me traigo lo del input que guardo cristian.
@@ -37,15 +40,40 @@ const Catalogue = () => {
 
   //guardo el catalogo de favoritos.
   const [_catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", "");
+ 
+
+  useEffect(() => {
+    setSearch('')
+    localStorage.setItem('search', '')
+  }, [])
+  
+
 
   useEffect(() => {
     filterProducts();
   }, [Search])
 
+
+  useEffect(() => {
+    
+    const listenInputChange = () => {
+      const localStorageSearchValue = localStorage.getItem('search') || ''
+      if(localStorageSearchValue !== Search) setSearch(localStorageSearchValue)
+    }
+
+    //@INFO Cada que se escribe en CUALQUIER input de la plataforma se lee el evento y se actualiza el state con el valor de localstorage.
+    window.addEventListener('input', listenInputChange);
+    return () => window.removeEventListener('input', listenInputChange)
+  });
+
+  useEffect(() => {
+    FavoriteItems()
+  }, [filteredTargets])
+
   //hacemos una funcion que va recibir un item al hacer click
   const FavoriteEnable = (selected: ICatalogue) => {
     //creamos constante la cual va mapear el catalogo
-    const newfav = Fav.map((item : ICatalogue) => {
+    const newfav = filteredTargets.map((item : ICatalogue) => {
       //si item.id es igual al selected.id
       if (item.id === selected.id) {
         //me retorna los datos del item y favorite lo pasa al contrario de item.favorite
@@ -60,15 +88,14 @@ const Catalogue = () => {
     });
 
     //Seteamos Fav con el nuevo catalogo
-    setFav(newfav);
-    FavoriteItems();
-    setSearch('')
-    localStorage.setItem('search', '')
+    setfilteredTargets(newfav);
+    setFav(newfav)
   };
+
 
   //enviar favoritos localStorarge
   const FavoriteItems = () => {
-    const favotiteItems = Fav.filter((item : ICatalogue) => item.favorite === true);
+    const favotiteItems = filteredTargets.filter((item: ICatalogue) => item.favorite === true);
     setCatalogueFav(JSON.stringify(favotiteItems));
   };
 
@@ -88,14 +115,21 @@ const Catalogue = () => {
     });
     setSelect(newSelect);
     setFilterActive(selected.id);
+    setSearch('')
+    localStorage.setItem('search', '')
+
+    
+    filterProducts()
   };
 
   const filterProducts = () => {
+
     let newFilteredTargets: ICatalogue[] = [];
 
     if (filterActive === "Todo") {
-      if (Search !== '') {
-        newFilteredTargets = Fav.filter((item) => {
+      newFilteredTargets = Fav
+      if (Search) {
+        newFilteredTargets = filteredTargets.filter((item) => {
           if (
             item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
           ) {
@@ -104,13 +138,10 @@ const Catalogue = () => {
             return false;
           }
         })
-      } else { 
-        newFilteredTargets = Fav
-      }
-      
+      } 
     } else {
       newFilteredTargets = Fav.filter((item) => {
-        const filteredName = item.name.toLowerCase();
+        const filteredName =  item.name.toLowerCase();
         const filterSelected = filterActive.toLowerCase();
   
         if (filteredName === filterSelected) {
@@ -120,20 +151,14 @@ const Catalogue = () => {
         }
       });
     }
-
     setfilteredTargets(newFilteredTargets)
+    
   };
 
-  useEffect(() => {
-    const listenInputChange = () => {
-      const localStorageSearchValue = localStorage.getItem('search') || ''
-      if(localStorageSearchValue !== Search) setSearch(localStorageSearchValue)
-    }
 
-    //@INFO Cada que se escribe en CUALQUIER input de la plataforma se lee el evento y se actualiza el state con el valor de localstorage.
-    window.addEventListener('input', listenInputChange);
-    return () => window.removeEventListener('input', listenInputChange)
-  });
+  
+
+  
 
 
   return (
