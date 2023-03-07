@@ -101,6 +101,8 @@ const Catalogue = () => {
     setCatalogueFav(JSON.stringify(favotiteItems));
   };
 
+
+
   const selectionActive = (selected: IFilters) => {
 
     setSearch('')
@@ -121,13 +123,19 @@ const Catalogue = () => {
     });
     setSelect(newSelect);
     setFilterActive(selected.id);
-        
-    filterProducts()
+    console.log("hola");
   };
+
+
+  useEffect(() => {
+    filterProducts()
+  },[select])
+
 
   const filterProducts = () => {
 
     let newFilteredTargets: ICatalogue[] = [];
+
 
     if (filterActive === "Todo") {
       newFilteredTargets = Fav
@@ -148,21 +156,18 @@ const Catalogue = () => {
         const filterSelected = filterActive.toLowerCase();
   
         if (filteredName === filterSelected) {
-          return filteredName;
+          console.log("coincide");
         } else {
-          console.log("error");
+          console.log("no coincide");
         }
+
+        return filteredName === filterSelected
       });
     }
     setfilteredTargets(newFilteredTargets)
-    
   };
 
-
   
-
-  
-
 
   return (
     <div className={Styles.Catalogue}>
