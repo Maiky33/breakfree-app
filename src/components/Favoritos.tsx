@@ -12,7 +12,6 @@ interface ICatalogue {
 }
 
 function Favoritos(props: any) {
-  const { primaryFont } = props;
   const { modalIsOpen } = props;
   const { closeModal } = props;
 

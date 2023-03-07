@@ -1,17 +1,13 @@
-
-import useLocalStorage from "use-local-storage";
+import { useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import { BiSearchAlt } from "react-icons/bi";
 import styles from "../components/Navbar.module.css";
-import { useState } from "react";
 import Favoritos from "./Favoritos";
 
 
 const Navbar = () => {
   
-
   const [mobile, setMobile] = useState(false);
-  const [text, setText] = useLocalStorage('text_input', '')
   const [modalIsOpen, setIsOpen] = useState(false);
   
   function openModal() {
@@ -55,9 +51,8 @@ const Navbar = () => {
               type="text"
               placeholder="Busca tus prendas favoritas, blusas, pantalones..."
               maxLength={50}
-              onChange={(e) => setText(e.target.value)}
-            
-            />
+              onChange={(e) => localStorage.setItem('search', e.target.value)}
+          />
 
             <button className={styles.search_button}>
               <BiSearchAlt />
@@ -76,7 +71,7 @@ const Navbar = () => {
               type="text"
               placeholder="Busca tus prendas favoritas, blusas, pantalones..."
               maxLength={30}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => localStorage.setItem('search', e.target.value)}
             />
 
             <button onClick={clickMobile} className={styles.search_button}>
@@ -97,7 +92,6 @@ const Navbar = () => {
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
       />
-
     </>
   );
 };
