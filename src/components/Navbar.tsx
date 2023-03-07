@@ -45,6 +45,7 @@ const Navbar = () => {
             placeholder="Busca tus prendas favoritas, blusas, pantalones..."
             maxLength={50}
             onChange={(e) => setText(e.target.value)}
+            value={text}
             
           />
 

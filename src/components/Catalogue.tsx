@@ -84,25 +84,15 @@ const Catalogue = () => {
     setSearch('')
   };
 
+  // useEffect(() => {
+  //   console.log(Search);
+  // },[Search])
 
   const GetCatalogue = () => {
     let filteredTargets: ICatalogue[] = [];
 
     if (filterActive === "Todo") {
-      if (Search !== '') {
-        filteredTargets = Fav.filter((item) => {
-          if (
-            item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      } else { 
-        filteredTargets = Fav
-      }
-      
+      filteredTargets = Fav      
     } else {
       filteredTargets = Fav.filter((item) => {
         const filteredName = item.name.toLowerCase();
@@ -116,15 +106,29 @@ const Catalogue = () => {
       });
     }
 
-    // const newFliterWithSearch = filteredTargets?.filter((item) => {
-    //   if (
-    //     item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
-    //   ) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // });
+    const newFliterWithSearch = filteredTargets?.filter((item) => {
+      if (
+        item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    // if (Search !== '') {
+    //     filteredTargets = Fav.filter((item) => {
+    //       if (
+    //         item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
+    //       ) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     })
+    // } else { 
+    //     filteredTargets = Fav
+    // }
 
     return (
       <div className={Styles.ContainFiltersTargets}>
@@ -151,7 +155,7 @@ const Catalogue = () => {
           </div>
           <div className={Styles.ContainTarget}>
             {/*Mapeamos el catalogo*/}
-            {filteredTargets.map((item: ICatalogue) => (
+            {newFliterWithSearch.map((item: ICatalogue) => (
               <div key={item.id} className={Styles.Target}>
                 <div className={Styles.containLikeButton}>
                   {!item.favorite ? (
@@ -184,7 +188,7 @@ const Catalogue = () => {
   };
 
   return <div className={Styles.Catalogue}>
-    {<GetCatalogue/>}
+    <GetCatalogue/>
   </div>;
 };
 
