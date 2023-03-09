@@ -5,6 +5,7 @@
 }
 
 .Slider{    
+    position: relative;
     max-width: 1400px;
     width: calc(100% - 120px);
     max-height: 320px;

@@ -6,7 +6,7 @@ import { FiltersItems } from "./functions/Filters";
 import useLocalStorage from "use-local-storage";
 
 import Styles from "./Catalogue.module.css";
-import { async } from "q";
+
 
 export interface IFilters {
   id: string;
@@ -51,6 +51,7 @@ const Catalogue = () => {
 
   useEffect(() => {
     filterProducts();
+    // eslint-disable-next-line
   }, [Search])
 
 
@@ -68,6 +69,7 @@ const Catalogue = () => {
 
   useEffect(() => {
     FavoriteItems()
+    // eslint-disable-next-line
   }, [filteredTargets])
 
   //hacemos una funcion que va recibir un item al hacer click
@@ -127,6 +129,7 @@ const Catalogue = () => {
 
   useEffect(() => {
     filterProducts()
+    // eslint-disable-next-line
   },[select])
 
 
