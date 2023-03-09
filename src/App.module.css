@@ -8,4 +8,10 @@
     :root {
         --swiper-pagination-color: #fccfdc;
     }
+
+    .swiper,swiper-container{
+        z-index: -1;
+    }
 }
+
+

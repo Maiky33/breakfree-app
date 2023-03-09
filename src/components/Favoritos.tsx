@@ -42,7 +42,7 @@ function Favoritos(props: any) {
           <div key={item.id} className={styles.fav_cards}>
             <img
               className={styles.fav_image}
-              alt="item image"
+              alt="item_image"
               src={item.image}
             />
             <div>
