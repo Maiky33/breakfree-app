@@ -26,12 +26,11 @@ const Catalogue = () => {
 
   //Metemos el catalogo en un state para poder modificarlo.
   const [Fav, setFav] = useState<ICatalogue[]>(CatalogueItems);
-  // Codigo para el funcionamiento de los filtros.
-
-  const [select, setSelect] = useState<IFilters[]>(FiltersItems);
-  const [filterActive, setFilterActive] = useState("Todo");
-
   const [filteredTargets, setfilteredTargets] = useState <ICatalogue[]> ([]);
+  
+  // Codigo para el funcionamiento de los filtros.
+  const [filterActive, setFilterActive] = useState("Todo");
+  const [select, setSelect] = useState<IFilters[]>(FiltersItems);
 
   //me traigo lo del input que guardo cristian.
   // const [Search , setSearch] = useLocalStorage<string>("text_input", "");
@@ -39,34 +38,36 @@ const Catalogue = () => {
 
 
   //guardo el catalogo de favoritos.
-  const [_catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", "");
+  const [catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", "");
  
-
-  useEffect(() => {
-    setSearch('')
-    localStorage.setItem('search', '')
-  }, [])
-  
-
 
   useEffect(() => {
     filterProducts();
     // eslint-disable-next-line
   }, [Search])
 
-
   useEffect(() => {
-    
+    filterProducts()
+    // eslint-disable-next-line
+  },[select])
+
+
+  
+  useEffect(() => {
+    //cada vez que se este tipeando en un input se va ejecutar la funcion listenInputChange
+
     const listenInputChange = () => {
       const localStorageSearchValue = localStorage.getItem('search') || ''
       if(localStorageSearchValue !== Search) setSearch(localStorageSearchValue)
     }
-
     //@INFO Cada que se escribe en CUALQUIER input de la plataforma se lee el evento y se actualiza el state con el valor de localstorage.
     window.addEventListener('input', listenInputChange);
+
+    //finaliza el evento
     return () => window.removeEventListener('input', listenInputChange)
   });
 
+  //cada vez que el catalogo cambie se va volver a filtrar el catalogo dejando los favoritos
   useEffect(() => {
     FavoriteItems()
     // eslint-disable-next-line
@@ -89,7 +90,7 @@ const Catalogue = () => {
       }
     });
 
-    //Seteamos Fav con el nuevo catalogo
+    //Seteamos filteredTargets con el nuevo catalogo
     setfilteredTargets(newfav);
     setFav(newfav)
   };
@@ -123,16 +124,9 @@ const Catalogue = () => {
     });
     setSelect(newSelect);
     setFilterActive(selected.id);
-    console.log("hola");
   };
 
-
-  useEffect(() => {
-    filterProducts()
-    // eslint-disable-next-line
-  },[select])
-
-
+  //filtramos el catalogo y seteamos filteredTargets
   const filterProducts = () => {
 
     let newFilteredTargets: ICatalogue[] = [];
@@ -140,6 +134,7 @@ const Catalogue = () => {
 
     if (filterActive === "Todo") {
       newFilteredTargets = Fav
+  
       if (Search) {
         newFilteredTargets = filteredTargets.filter((item) => {
           if (

@@ -25,7 +25,6 @@ const Banner = () => {
         slidesPerView={1}
         autoplay={{ delay: 3000 }}
         pagination={{ clickable: true }}
-
       >
         {SliderItem.map((item:ISlider) => (
           <SwiperSlide className={Styles.SwiperSlide} key={item.id}>
