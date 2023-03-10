@@ -15,11 +15,10 @@ function Favoritos(props: any) {
   const { modalIsOpen } = props;
   const { closeModal } = props;
 
-  const [catalogueFav] = useLocalStorage("CatalogueFav", "");
+  // const [catalogueFav] = useLocalStorage("CatalogueFav", "");
 
-  const Favs = JSON.parse(catalogueFav);
+  // const Favs = JSON.parse(catalogueFav);
 
-  console.log(catalogueFav);
 
 
   return (
@@ -38,7 +37,7 @@ function Favoritos(props: any) {
           </button>
         </div>
  
-        {Favs.map((item: ICatalogue) => (
+        {/* {Favs.map((item: ICatalogue) => (
           <div key={item.id} className={styles.fav_cards}>
             <img
               className={styles.fav_image}
@@ -50,7 +49,7 @@ function Favoritos(props: any) {
               <p>{item.price} COP</p>
             </div>
           </div>
-        ))}
+        ))} */}
       </Modal>
     </div>
   );
