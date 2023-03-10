@@ -2,6 +2,7 @@ import useLocalStorage from "use-local-storage";
 import Modal from "react-modal";
 import styles from "./Favoritos.module.css"
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useEffect, useState } from "react";
 
 interface ICatalogue {
   id: number;
@@ -17,9 +18,11 @@ function Favoritos(props: any) {
 
   const [catalogueFav] = useLocalStorage("CatalogueFav", "");
 
-  const Favs = JSON.parse(catalogueFav);
+  const [favs, setFavs] = useState([]);
 
-  console.log(catalogueFav);
+  useEffect(() =>{
+    setFavs(JSON.parse(catalogueFav))  
+  },[catalogueFav, modalIsOpen])
   
 
   return (
@@ -38,7 +41,7 @@ function Favoritos(props: any) {
           </button>
         </div>
  
-        {Favs.map((item: ICatalogue) => (
+        {favs.map((item: ICatalogue) => (
           <div key={item.id} className={styles.fav_cards}>
             <img
               className={styles.fav_image}
