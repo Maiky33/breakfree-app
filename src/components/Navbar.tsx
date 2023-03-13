@@ -6,6 +6,7 @@ import Favoritos from "./Favoritos";
 
 
 const Navbar = () => {
+
   
   const [mobile, setMobile] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
