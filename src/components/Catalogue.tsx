@@ -25,7 +25,7 @@ export interface ICatalogue {
 const Catalogue = () => {
 
   //Metemos el catalogo en un state para poder modificarlo.
-  const [Fav, _setFav] = useState<ICatalogue[]>(CatalogueItems);
+  const [Fav, setFav] = useState<ICatalogue[]>(CatalogueItems);
   //hacemos un estado que estaremos mapeando 
   const [filteredTargets, setfilteredTargets] = useState<ICatalogue[]>([]);
   
@@ -38,13 +38,13 @@ const Catalogue = () => {
   const [Search, setSearch] = useState<string>("");
   
   //guardo el catalogo de favoritos.
-  const [catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", '');
+  const [catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", JSON.stringify(Fav));
   
 
-  //usamos el useeffect para actualizar el local con los del catalogo en caso de que no haya local poder filtrarlos
-  useEffect(() => { 
-    setCatalogueFav(JSON.stringify(Fav))
-  },[])
+  // //usamos el useeffect para actualizar el local con los del catalogo en caso de que no haya local poder filtrarlos
+  // useEffect(() => { 
+  //   setCatalogueFav(JSON.stringify(Fav))
+  // },[])
 
   useEffect(() => {
     filterProducts();
@@ -54,7 +54,12 @@ const Catalogue = () => {
   useEffect(() => {
     filterProducts()
     // eslint-disable-next-line
-  },[select])
+  }, [select])
+  
+  useEffect(() => { 
+    filterProducts()
+    // eslint-disable-next-line
+  }, [catalogueFav])
 
 
   
@@ -76,7 +81,7 @@ const Catalogue = () => {
   //hacemos una funcion que va recibir un item al hacer click
   const FavoriteEnable = (selected: ICatalogue) => {
     //creamos constante la cual va mapear el catalogo
-    const newfav = filteredTargets.map((item : ICatalogue) => {
+    const newfav = JSON.parse(catalogueFav).map((item : ICatalogue) => {
       //si item.id es igual al selected.id
       if (item.id === selected.id) {
         //me retorna los datos del item y favorite lo pasa al contrario de item.favorite
@@ -92,7 +97,8 @@ const Catalogue = () => {
 
     //Seteamos filteredTargets con el nuevo catalogo para que se reflejen los likes
     setfilteredTargets(newfav);
-
+    setFav(newfav)
+    filterProducts()
     //seteamos el catalogo con todos los productos actualizados con likes o no
     setCatalogueFav(JSON.stringify(newfav));
   };
@@ -140,7 +146,7 @@ const Catalogue = () => {
       //si search existe
       if (Search) {
         //filtramos lo que hay en el localStorage por lo que hay en search
-        newFilteredTargets = JSON.parse(catalogueFav).filter((item:any) => {
+        newFilteredTargets = JSON.parse(catalogueFav).filter((item:ICatalogue) => {
           if (
             item?.name?.toLocaleLowerCase().includes(Search.toLocaleLowerCase())
           ) {
@@ -153,7 +159,7 @@ const Catalogue = () => {
 
     } else {
       //si search no es igual a todo filtramos por lo que hay en filtered que sea igual a filterselect
-      newFilteredTargets = JSON.parse(catalogueFav).filter((item:any) => {
+      newFilteredTargets = JSON.parse(catalogueFav).filter((item:ICatalogue) => {
         const filteredName =  item.name.toLowerCase();
         const filterSelected = filterActive.toLowerCase();
   
