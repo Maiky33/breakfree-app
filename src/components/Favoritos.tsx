@@ -1,4 +1,3 @@
-import useLocalStorage from "use-local-storage";
 import Modal from "react-modal";
 import styles from "./Favoritos.module.css"
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -16,50 +15,23 @@ interface ICatalogue {
 
 function Favoritos(props: any) {
 
-  const { modalIsOpen } = props;
-  const { closeModal } = props;
+  const { modalIsOpen , closeModal} = props;
 
-
-  const [catalogueFav] = useLocalStorage("CatalogueFav", "");
 
   const [favorites, setFavorites] = useState ([])
 
-
   useEffect(() =>{
-    let favoriteItems = []
 
+    //@INFO Se parsea dos veces, por alguna razon magica
+    const newItemsStringify = localStorage.getItem('CatalogueFav') || ''
+    const newItemsFirstParse = JSON.parse(newItemsStringify)
+    const newItemslastParse = JSON.parse(newItemsFirstParse) || []
 
-    favoriteItems = JSON.parse(catalogueFav).filter((item:any) => {
-      return item.favorite === true
-    })
+    const favoriteItems = newItemslastParse.filter((item:any) => item.favorite)
 
     setFavorites(favoriteItems)
+
   },[modalIsOpen])
-
-
-
-
-  // const prueba = (array:any) =>{
-    
-
-  //   return array.map((item: ICatalogue) => (
-  //     <div key={item.id} className={styles.fav_cards}>
-  //       <img
-  //         className={styles.fav_image}
-  //         alt="item_image"
-  //         src={item.image}
-  //       />
-  //       <div>
-  //         <p>{item.name}</p>
-  //         <p>{item.price} COP</p>
-  //       </div>
-  //     </div>  
-  //   ))
-  // }
-  
-
-
-
 
   return (
     <div>
@@ -71,18 +43,14 @@ function Favoritos(props: any) {
         contentLabel="Example Modal"
       >
         <>
-        <div className={styles.modal_header}>
-          <h2>Mirá tus favoritos!</h2>
-          <button className={styles.close_button} onClick={closeModal}>
-            <AiOutlineCloseCircle />
-          </button>
-        </div>
+          <div className={styles.modal_header}>
+            <h2>Mirá tus favoritos!</h2>
+            <button className={styles.close_button} onClick={closeModal}>
+              <AiOutlineCloseCircle />
+            </button>
+          </div>
 
-        {/* {useEffect(() =>{
-          prueba(favorites)
-        },[favorites])} */}
- 
-        {favorites.map((item: ICatalogue) => (
+          {favorites.map((item: ICatalogue) => (
             <div key={item.id} className={styles.fav_cards}>
               <img
                 className={styles.fav_image}
@@ -95,7 +63,6 @@ function Favoritos(props: any) {
               </div>
             </div>  
           ))}
-
         </>
       </Modal>
     </div>

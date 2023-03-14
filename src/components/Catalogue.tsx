@@ -100,6 +100,8 @@ const Catalogue = () => {
     setFav(newfav)
     filterProducts()
     //seteamos el catalogo con todos los productos actualizados con likes o no
+    console.log('newfav', newfav)
+    console.log('JSON.stringify(newfav)', JSON.stringify(newfav))
     setCatalogueFav(JSON.stringify(newfav));
   };
 
