@@ -13,30 +13,50 @@ interface ICatalogue {
   name: string;
 }
 
+
 function Favoritos(props: any) {
+
   const { modalIsOpen } = props;
   const { closeModal } = props;
 
 
   const [catalogueFav] = useLocalStorage("CatalogueFav", "");
 
-  let favoriteItems = JSON.parse(catalogueFav)
-
-  // const [favoriteItems, setFavoriteItems] = useState ([])
+  const [favorites, setFavorites] = useState ([])
 
 
-  // useEffect(() =>{
+  useEffect(() =>{
+    let favoriteItems = []
 
-  //   setFavoriteItems(JSON.parse(catalogueFav).filter((item:any) => {return item.favorite === true}))
 
-     
-  //   // favoriteItems = JSON.parse(catalogueFav).filter((item:any) => {
-  //   //   return item.favorite === true
-  //   // })
+    favoriteItems = JSON.parse(catalogueFav).filter((item:any) => {
+      return item.favorite === true
+    })
+
+    setFavorites(favoriteItems)
+  },[modalIsOpen])
+
+
+
+
+  // const prueba = (array:any) =>{
+    
+
+  //   return array.map((item: ICatalogue) => (
+  //     <div key={item.id} className={styles.fav_cards}>
+  //       <img
+  //         className={styles.fav_image}
+  //         alt="item_image"
+  //         src={item.image}
+  //       />
+  //       <div>
+  //         <p>{item.name}</p>
+  //         <p>{item.price} COP</p>
+  //       </div>
+  //     </div>  
+  //   ))
+  // }
   
-  //   console.log(favoriteItems);
-  // })
-
 
 
 
@@ -50,26 +70,33 @@ function Favoritos(props: any) {
         onRequestClose={closeModal}
         contentLabel="Example Modal"
       >
+        <>
         <div className={styles.modal_header}>
           <h2>Mirá tus favoritos!</h2>
           <button className={styles.close_button} onClick={closeModal}>
             <AiOutlineCloseCircle />
           </button>
         </div>
+
+        {/* {useEffect(() =>{
+          prueba(favorites)
+        },[favorites])} */}
  
-        {favoriteItems.map((item: ICatalogue) => (
-          <div key={item.id} className={styles.fav_cards}>
-            <img
-              className={styles.fav_image}
-              alt="item_image"
-              src={item.image}
-            />
-            <div>
-              <p>{item.name}</p>
-              <p>{item.price} COP</p>
-            </div>
-          </div>
-        ))}
+        {favorites.map((item: ICatalogue) => (
+            <div key={item.id} className={styles.fav_cards}>
+              <img
+                className={styles.fav_image}
+                alt="item_image"
+                src={item.image}
+              />
+              <div>
+                <p>{item.name}</p>
+                <p>{item.price} COP</p>
+              </div>
+            </div>  
+          ))}
+
+        </>
       </Modal>
     </div>
   );
