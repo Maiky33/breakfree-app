@@ -25,12 +25,9 @@ function Favoritos(props: any) {
     //@INFO Se parsea dos veces, por alguna razon magica
     const newItemsStringify = localStorage.getItem('CatalogueFav') || ''
     const newItemsFirstParse = JSON.parse(newItemsStringify)
-    const newItemslastParse = JSON.parse(newItemsFirstParse) || []
-
-    const favoriteItems = newItemslastParse.filter((item:any) => item.favorite)
-
+    const favoriteItems = newItemsFirstParse.filter((item: any) => item.favorite)
+    
     setFavorites(favoriteItems)
-
   },[modalIsOpen])
 
   return (

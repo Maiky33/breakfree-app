@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { BsFillHeartFill } from "react-icons/bs";
 import { CatalogueItems } from "./functions/CatalogueItems";
 import { FiltersItems } from "./functions/Filters";
-import useLocalStorage from "use-local-storage";
+
 
 import Styles from "./Catalogue.module.css";
 
@@ -38,13 +38,13 @@ const Catalogue = () => {
   const [Search, setSearch] = useState<string>("");
   
   //guardo el catalogo de favoritos.
-  const [catalogueFav, setCatalogueFav] = useLocalStorage("CatalogueFav", JSON.stringify(Fav));
+  const [catalogueFav, setCatalogueFav] = useState('');
   
-
-  // //usamos el useeffect para actualizar el local con los del catalogo en caso de que no haya local poder filtrarlos
-  // useEffect(() => { 
-  //   setCatalogueFav(JSON.stringify(Fav))
-  // },[])
+  //nos traemos lo que este guardado en el local storage y seteamos catalogo
+  useEffect(() => { 
+    const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
+    setCatalogueFav(getallcatalogue)
+  },[])
 
   useEffect(() => {
     filterProducts();
@@ -100,9 +100,8 @@ const Catalogue = () => {
     setFav(newfav)
     filterProducts()
     //seteamos el catalogo con todos los productos actualizados con likes o no
-    console.log('newfav', newfav)
-    console.log('JSON.stringify(newfav)', JSON.stringify(newfav))
     setCatalogueFav(JSON.stringify(newfav));
+    localStorage.setItem("CatalogueFav", JSON.stringify(newfav))
   };
 
 
