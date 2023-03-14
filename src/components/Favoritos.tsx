@@ -23,7 +23,7 @@ function Favoritos(props: any) {
   useEffect(() =>{
 
     //@INFO Se parsea dos veces, por alguna razon magica
-    const newItemsStringify = localStorage.getItem('CatalogueFav') || ''
+    const newItemsStringify = localStorage.getItem('CatalogueFav') || '[]'
     const newItemsFirstParse = JSON.parse(newItemsStringify)
     const favoriteItems = newItemsFirstParse.filter((item: any) => item.favorite)
     
