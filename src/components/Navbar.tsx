@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import { BiSearchAlt } from "react-icons/bi";
+import { BsWhatsapp } from 'react-icons/bs'
 import styles from "../components/Navbar.module.css";
 import Favoritos from "./Favoritos";
 
@@ -80,6 +81,14 @@ const Navbar = () => {
             </button>
           </div>
 
+          <div className={styles.like_button}> 
+            <a href="https://wa.link/31c5fa" target="_blank" rel="noreferrer"> 
+              <button className={styles.like_button} >  
+                <BsWhatsapp/>
+              </button>
+            </a>
+          </div>
+          
           <button 
             className={styles.like_button}
             onClick={openModal}
