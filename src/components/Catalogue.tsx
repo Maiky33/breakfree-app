@@ -39,12 +39,27 @@ const Catalogue = () => {
   
   //guardo el catalogo de favoritos.
   const [catalogueFav, setCatalogueFav] = useState('');
+
   
   //nos traemos lo que este guardado en el local storage y seteamos catalogo
   useEffect(() => { 
+    setInterval(() => { 
+      const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
+      setCatalogueFav(getallcatalogue)
+    }, 1)
+    // eslint-disable-next-line
+  },[]) 
+
+
+  console.log(catalogueFav);
+
+  useEffect(() => { 
     const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
-    setCatalogueFav(getallcatalogue)
-  },[])
+    setfilteredTargets(JSON.parse(getallcatalogue))
+    
+    
+    // eslint-disable-next-line
+  },[catalogueFav])
 
   useEffect(() => {
     filterProducts();
@@ -57,12 +72,10 @@ const Catalogue = () => {
   }, [select])
   
   useEffect(() => { 
-    filterProducts()
+    filterProducts()    
     // eslint-disable-next-line
   }, [catalogueFav])
 
-
-  
   useEffect(() => {
     //cada vez que se este tipeando en un input se va ejecutar la funcion listenInputChange
     const listenInputChange = () => {
