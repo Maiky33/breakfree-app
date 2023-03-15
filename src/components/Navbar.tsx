@@ -3,7 +3,7 @@ import { FiHeart } from "react-icons/fi";
 import { BiSearchAlt } from "react-icons/bi";
 import { BsWhatsapp } from 'react-icons/bs'
 import styles from "../components/Navbar.module.css";
-import Favoritos from "./Favoritos";
+import Favoritos from "./Favorites";
 
 
 const Navbar = () => {
@@ -76,25 +76,28 @@ const Navbar = () => {
               onChange={(e) => localStorage.setItem('search', e.target.value)}
             />
 
+
             <button onClick={clickMobile} className={styles.search_button}>
               <BiSearchAlt />
             </button>
           </div>
 
-          <div className={styles.like_button}> 
-            <a href="https://wa.link/31c5fa" target="_blank" rel="noreferrer"> 
-              <button className={styles.like_button} >  
-                <BsWhatsapp/>
-              </button>
-            </a>
-          </div>
           
           <button 
-            className={styles.like_button}
+            className={`${styles.navbar_buttons} ${styles.like_button}`}
             onClick={openModal}
           >
             <FiHeart />
           </button>
+
+
+          <div className={`${styles.navbar_buttons} ${styles.wh_button}`}> 
+            <a href="https://wa.link/31c5fa" target="_blank" rel="noreferrer"> 
+              <button className={`${styles.navbar_buttons} ${styles.wh_button}`}>  
+                <BsWhatsapp/>
+              </button>
+            </a>
+          </div>
         </div>
       </div>
 

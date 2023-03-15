@@ -8,13 +8,13 @@
   transform: translate(-50%, -50%);
   background-color: white;
   height: 500px;
-  width: 400px;
+  width: 450px;
   border-radius: 20px;
   box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.62);
-  padding: 15px;
+  padding: 20px;
   box-sizing: border-box;
   z-index: 1;
-  overflow-y: auto;
+
 }
 
 .Overlay {
@@ -41,6 +41,14 @@
   cursor: pointer;
 }
 
+.cards_container{
+  height: 415px;
+  width: 91%;
+  overflow-y: auto;
+  position: absolute;  
+  padding: 2px ;
+}
+
 .fav_cards{
   padding: 0 10px 0 10px;
   display: flex;
@@ -48,9 +56,64 @@
   border-radius: 10px;
   margin-bottom: 20px;
   box-shadow: 0px 0px 5px 0px rgba(128,125,128,1);
+  margin-right: 8px;
 }
 
 .fav_image{
   height: 80px;
   width: auto;
+}
+
+.fav_info{
+  width: 200px;
+}
+
+.buttons_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons{
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 7px;
+  font-size: 20px;
+  border-radius: 50%;
+  border: none;
+  background-color:#EFEBFF;
+  cursor: pointer;
+}
+
+.icon{
+  text-decoration: none;
+  color: black;
+}
+
+.shop_button{
+  text-decoration: none;
+  color: black;
+}
+
+.shop_button:hover{
+  color: #48C859;
+}
+
+.delete_button:hover{
+  color: red;
+}
+
+@media screen and (max-width: 500px) {
+
+  .modal{
+    width: 98.5vw;
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .cards_container{
+    height: 90vh;
+  }
 }

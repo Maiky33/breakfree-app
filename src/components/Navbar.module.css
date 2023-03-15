@@ -84,7 +84,7 @@
 
 /* Likes Styles */
 
-.like_button{
+.navbar_buttons{
   display: grid;
   place-items: center;
   width: 40px;
@@ -101,7 +101,13 @@
 
 .like_button:hover {
   transform: rotate(360deg);
+}
 
+
+
+.wh_button:hover{
+  color: #48C859;
+  transform: scale(110%);
 }
 
 
