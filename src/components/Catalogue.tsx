@@ -7,13 +7,14 @@ import { FiltersItems } from "./functions/Filters";
 
 import Styles from "./Catalogue.module.css";
 
-
+//interfaz filtros TypeScript
 export interface IFilters {
   id: string;
   name: string;
   active: boolean;
 }
 
+//interfaz catalogo TypeScript
 export interface ICatalogue {
   id: number;
   image: any;
@@ -26,60 +27,68 @@ const Catalogue = () => {
 
   //Metemos el catalogo en un state para poder modificarlo.
   const [Fav, setFav] = useState<ICatalogue[]>(CatalogueItems);
-  //hacemos un estado que estaremos mapeando 
+
+  //hacemos un estado que sera el catalogo modificado y luego estaremos mapeando 
   const [filteredTargets, setfilteredTargets] = useState<ICatalogue[]>([]);
-  
   
   // Codigo para el funcionamiento de los filtros.
   const [filterActive, setFilterActive] = useState("Todo");
+
+  //para saber que filtro a sido seleccionado
   const [select, setSelect] = useState<IFilters[]>(FiltersItems);
 
-  //hago un state del search
+
+  //hago un state del search que recibimos del local cada vez que alguien escribe en un input
   const [Search, setSearch] = useState<string>("");
   
-  //guardo el catalogo de favoritos.
-  const [catalogueFav, setCatalogueFav] = useState('');
-
+  //guardo y traemos el catalogo de favoritos.
+  const [catalogueFav, setCatalogueFav] = useState<string>('');
   
+
   //nos traemos lo que este guardado en el local storage y seteamos catalogo
   useEffect(() => { 
+    //al empezar cada 200 milisegundos traera el catalogo para poder actualizar el catalogo y que se pueda actualizar el mapeo
     setInterval(() => { 
       const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
       setCatalogueFav(getallcatalogue)
-    }, 1)
+    }, 200)
     // eslint-disable-next-line
   },[]) 
 
 
-  // console.log(catalogueFav);
-
   useEffect(() => { 
+    //resivimos el catalogo cada vez que catalogueFav cambie
     const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
     setfilteredTargets(JSON.parse(getallcatalogue))
-    
-    
     // eslint-disable-next-line
-  },[catalogueFav])
+  }, [catalogueFav])
+  
 
   useEffect(() => {
+    //cada vez que search cambie ejecutamos el filtro
     filterProducts();
     // eslint-disable-next-line
   }, [Search])
   
   useEffect(() => {
+    //cada vez que select cambie ejecutamos el filtro
     filterProducts()
     // eslint-disable-next-line
   }, [select])
   
   useEffect(() => { 
+    //para cuando el catalogo cambie sigan los filtros
     filterProducts()    
     // eslint-disable-next-line
   }, [catalogueFav])
 
+
   useEffect(() => {
     //cada vez que se este tipeando en un input se va ejecutar la funcion listenInputChange
     const listenInputChange = () => {
+      //nos traemos search del local
       const localStorageSearchValue = localStorage.getItem('search') || ''
+      //si search del local es distinto de search vamos actualizar search con lo que ahi en el local
       if(localStorageSearchValue !== Search) setSearch(localStorageSearchValue)
     }
 
@@ -110,10 +119,15 @@ const Catalogue = () => {
 
     //Seteamos filteredTargets con el nuevo catalogo para que se reflejen los likes
     setfilteredTargets(newfav);
+    //seteamos fav para actualizar el catalogo
     setFav(newfav)
+    
+    //filtramos nuevamente el catalogo para que no se muestre el catalogo completo nuevamente
     filterProducts()
-    //seteamos el catalogo con todos los productos actualizados con likes o no
+
+    //seteamos el catalogo con todos los productos actualizados con likes o no, en modo de string
     setCatalogueFav(JSON.stringify(newfav));
+    //y guardamos cada vez queden like en el local
     localStorage.setItem("CatalogueFav", JSON.stringify(newfav))
   };
 
@@ -121,9 +135,11 @@ const Catalogue = () => {
 
   //Creamos una función para filtrar los productos
   const selectionActive = (selected: IFilters) => {
+    //borramos lo que ahi en el search y el local para que no afecte el filtro
     setSearch('')
     localStorage.setItem('search', '')
     
+    //hacemos una constante la cual va retornar el objeto de los filtros mostrando cual es el que a sido seleccionado
     const newSelect = select.map((item : IFilters) => {
       if (item.id === selected.id) {
         return {
@@ -137,21 +153,27 @@ const Catalogue = () => {
         };
       }
     });
+
+    //seteamos los filtros con el correspondiente
     setSelect(newSelect);
+    //seteamos filteractive con el nombre del filtro que sea igual a que elegimos 
     setFilterActive(selected.id);
   };
 
-  //filtramos el catalogo y seteamos filteredTargets
+
+
+  //hacemos una funcion par filtrar el catalogo y setear filteredTargets
   const filterProducts = () => {
+    //creamos variable para filtrar el catalogo
     let newFilteredTargets: ICatalogue[] = [];
 
     //si filterActive es igual a todo
     if (filterActive === "Todo") {
 
-      //la primera vez va retornar el catalogo sin likes
+      //la primera vez va retornar el catalogo sin likes o el default
       newFilteredTargets = Fav
   
-      //si catalogueFav existe
+      //pero si catalogueFav existe (osea si hay localStorage)
       if (catalogueFav) { 
         //newFilteredTargets va ser igual al catalogo de localStorage (evitando perder los likes)
         newFilteredTargets = JSON.parse(catalogueFav)
@@ -172,22 +194,26 @@ const Catalogue = () => {
       } 
 
     } else {
-      //si search no es igual a todo filtramos por lo que hay en filtered que sea igual a filterselect
-      newFilteredTargets = JSON.parse(catalogueFav).filter((item:ICatalogue) => {
-        const filteredName =  item.name.toLowerCase();
-        const filterSelected = filterActive.toLowerCase();
-  
-        if (filteredName === filterSelected) {
-          console.log("coincide");
-        } else {
-          console.log("no coincide");
-        }
+      //en caso de que filterActive no sea igual a todo vamos a filtrar el catalogo que viene del local y le decimos que nos retorne todo en donde item.name sea igual al estado que seteamos al elegir el filtro
+      newFilteredTargets = JSON.parse(catalogueFav).filter((item: ICatalogue) => (  
+        item.name.toLowerCase() === filterActive.toLowerCase()
+      ))
 
-        return filteredName === filterSelected
-      });
+      // newFilteredTargets = JSON.parse(catalogueFav).filter((item: ICatalogue) => {
+      //   //hacemos una constante filterName que va ser igual al item.name de el catalogo
+      //   const filteredName = item.name.toLowerCase();
+      //   //hacemos una constante filterSelected que va ser igual al estado de filterActive
+      //   const filterSelected = filterActive.toLowerCase();
+      //   if (filteredName === filterSelected) {
+      //     console.log("coincide");
+      //   } else {
+      //     console.log("no coincide");
+      //   }
+      //   return filteredName === filterSelected
+      // });
     }
 
-    //seteamos setfilteredTargets para poder mapear los nuevos filtros
+    //seteamos setfilteredTargets para poder mapear con los nuevos filtros
     setfilteredTargets(newFilteredTargets)
   };
 
@@ -197,6 +223,7 @@ const Catalogue = () => {
     <div className={Styles.Catalogue}>
       <div className={Styles.ContainFiltersTargets}>
         <div className={Styles.filter_container}>
+          {/*Mapeamos lo filtros y le pasamos las funciones correctas*/}
           {select.map((item) => (
             <button
               key={item.id}
