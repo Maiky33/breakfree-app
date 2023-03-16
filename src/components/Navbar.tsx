@@ -8,20 +8,24 @@ import Favoritos from "./Favorites";
 
 const Navbar = () => {
 
-  
+  // Usamos un estado para saber si el buscador mobile está abierto o cerrado.  
   const [mobile, setMobile] = useState(false);
+
+  // Usamos un esatdo para saber si el modal está abierto o cerrado.
   const [modalIsOpen, setIsOpen] = useState(false);
   
-  function openModal() {
+
+  // Creamos una función para cambiar el estado del modal a abierto.
+  const openModal = () => {
     setIsOpen(true);
   }
 
-
-  function closeModal() {
+  // Creamos una función para cambiar el estado del modal a cerrado.
+  const closeModal = () => {
     setIsOpen(false);
   }
 
-
+  // Creamos una función para cambiar el estado del buscador mobile.
   const clickMobile = () => {
     setMobile(!mobile);
   };
@@ -30,10 +34,12 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.navbar}>
+        {/* Logo Desktop */}
         <div className={`${styles.logo_container} ${styles.logo_desktop}`}>
           BREAK FREE
         </div>
 
+        {/* Logo mobile */}
         <div
           className={
             !mobile 
@@ -45,6 +51,8 @@ const Navbar = () => {
         </div>
 
         <div className={styles.right_container}>
+
+          {/* Buscador desktop */}
           <div
             className={`${styles.search_container} ${styles.search_container_desktop}`}
           >
@@ -61,6 +69,7 @@ const Navbar = () => {
             </button>
           </div>
 
+          {/* Buscador mobile */}
           <div
             className={`${styles.search_container} ${styles.search_container_mobile}`}
           >
@@ -71,18 +80,17 @@ const Navbar = () => {
                   : styles.disable
               }
               type="text"
-              placeholder="Busca tus prendas favoritas, blusas, pantalones..."
+              placeholder="Busca tus prendas favoritas"
               maxLength={30}
               onChange={(e) => localStorage.setItem('search', e.target.value)}
             />
-
 
             <button onClick={clickMobile} className={styles.search_button}>
               <BiSearchAlt />
             </button>
           </div>
 
-          
+          {/* Botón de favoritos */}
           <button 
             className={`${styles.navbar_buttons} ${styles.like_button}`}
             onClick={openModal}
@@ -90,14 +98,16 @@ const Navbar = () => {
             <FiHeart />
           </button>
 
-
-          <div className={`${styles.navbar_buttons} ${styles.wh_button}`}> 
-            <a href="https://wa.link/31c5fa" target="_blank" rel="noreferrer"> 
-              <button className={`${styles.navbar_buttons} ${styles.wh_button}`}>  
-                <BsWhatsapp/>
-              </button>
+          {/* Botón de whatsapp */}
+            <a 
+              className={`${styles.navbar_buttons} ${styles.wh_button}`} 
+              href="https://wa.link/31c5fa" 
+              target="_blank" 
+              rel="noreferrer"
+            > 
+              <BsWhatsapp/>
             </a>
-          </div>
+
         </div>
       </div>
 

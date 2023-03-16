@@ -51,7 +51,7 @@ const Catalogue = () => {
   },[]) 
 
 
-  console.log(catalogueFav);
+  // console.log(catalogueFav);
 
   useEffect(() => { 
     const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
@@ -119,11 +119,11 @@ const Catalogue = () => {
 
 
 
-  //Filtros Cristian
+  //Creamos una función para filtrar los productos
   const selectionActive = (selected: IFilters) => {
     setSearch('')
     localStorage.setItem('search', '')
-
+    
     const newSelect = select.map((item : IFilters) => {
       if (item.id === selected.id) {
         return {

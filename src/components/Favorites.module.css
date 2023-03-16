@@ -1,3 +1,5 @@
+/* General modal styles */
+
 .modal{
   position: absolute;  
   top: 50%;
@@ -41,6 +43,9 @@
   cursor: pointer;
 }
 
+
+/* Cards styles */
+
 .cards_container{
   height: 415px;
   width: 91%;
@@ -67,6 +72,9 @@
 .fav_info{
   width: 200px;
 }
+
+
+/* Buttons styles */
 
 .buttons_container{
   display: flex;
@@ -105,8 +113,11 @@
   color: red;
 }
 
-@media screen and (max-width: 500px) {
 
+
+/* Media queries */
+
+@media screen and (max-width: 500px) {
   .modal{
     width: 98.5vw;
     height: 100vh;

@@ -115,7 +115,7 @@
 /* Mobile Version Styles */
 
 .search_mobile{
-  width: 71.5vw;
+  width: 59vw;
 }
 
 .disable{
@@ -123,7 +123,7 @@
 }
 
 
-/* media queries */
+/* Media queries */
 
 
 @media screen and (max-width: 640px) {
@@ -137,7 +137,9 @@
   }
 
   .navbar{
-    padding: 0 25px 0 25px;
+    padding: 0 25px;
+    justify-content: space-around; 
+    gap: 65px;
   }
 
   .right_container{

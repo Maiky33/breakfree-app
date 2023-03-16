@@ -17,56 +17,61 @@ interface ICatalogue {
 
 function Favoritos(props: any) {
 
-  const link = "https://api.whatsapp.com/send?phone=+573054106917&text=Hola,+estoy+interesad@+en+esté+producto:"
-
+  // Recibimos por props las funciones que nos ayudan a mostrar y ocultar el modal.
   const { modalIsOpen , closeModal} = props;
 
-
+  // Creamos los estados que usamos para actualizar el modal y los productos que se mostraran en él.
   const [favorites, setFavorites] = useState<ICatalogue[]>([])
   const [catalogue, setCatalogue] = useState<ICatalogue[]>([])
   const [deleted, setDeleted] = useState(false)
 
+  // Creamos una constante la cual guardara el link base de whatsapp con el que luego enviaremos un mensaje al vendedor.
+  const link = "https://api.whatsapp.com/send?phone=+573054106917&text=Hola,+estoy+interesad@+en+esté+producto:"
+
+
+  // Usamos dos useEffect para traer los productos desde el localStorage y actualizar la lista dependiendo de la interacción del usuario.
   useEffect(() =>{
-    //@INFO Se parsea dos veces, por alguna razon magica
-    const newItemsStringify = localStorage.getItem('CatalogueFav') || '[]'
-    const newItemsParse = JSON.parse(newItemsStringify)
-    const favoriteItems = newItemsParse.filter((item: any) => item.favorite)
-    
-    setFavorites(favoriteItems)
-    setCatalogue(newItemsParse)
+    getFavorites()
   },[modalIsOpen])
 
-  
   useEffect(() =>{
-    //@INFO Se parsea dos veces, por alguna razon magica
+    getFavorites()
+  },[deleted])
+
+
+  // Creamos la función encargada de traer los productos desde el localStorage y con la cual actualizamos los estados anteriores. 
+  const getFavorites = () =>{
     const newItemsStringify = localStorage.getItem('CatalogueFav') || '[]'
     const newItemsParse = JSON.parse(newItemsStringify)
     const favoriteItems = newItemsParse.filter((item: any) => item.favorite)
-    
+
     setFavorites(favoriteItems)
     setCatalogue(newItemsParse)
-  },[deleted])
-  
+  }
 
-  const FavoriteEnable = (selected: ICatalogue) => {
-    //creamos constante la cual va mapear el catalogo
+
+  // Usamos una función para eliminar el producto de favoritos cuando el usuario le de click al botón de eliminar.
+  const deleteItem = (selected: ICatalogue) => {
+    //creamos constante la cual va mapear el catalogo.
     const deleteFav = catalogue.map((item : ICatalogue) => {
       //si item.id es igual al selected.id
       if (item.id === selected.id) {
-        //me retorna los datos del item y favorite lo pasa al contrario de item.favorite
+        //me retorna los datos del item y favorite lo cambia a false.
         return {
           ...item,
           favorite: item.favorite === false,
         };
-        //en caso de que no sea igual me retorna el item
+        //en caso de que no sea igual me retorna el item.
       } else {
         return item;
       }
     });
 
+    // Actualizamos el estado "deleted" para que se actualice la lista que se nuestra en el modal.
     setDeleted(!deleted)
-    //seteamos el catalogo con todos los productos actualizados con likes o no
+    //seteamos el catalogo con todos los productos actualizados con likes o no.
     setCatalogue(deleteFav);
+    // Guardamos en el localStorage el nuevo catalogo con los likes actualizados.
     localStorage.setItem("CatalogueFav", JSON.stringify(deleteFav))
   };
 
@@ -81,6 +86,7 @@ function Favoritos(props: any) {
         contentLabel="Example Modal"
       >
         <>
+          {/* Header del modal */}
           <div className={styles.modal_header}>
             <h2>Mirá tus favoritos!</h2>
             <button className={styles.close_button} onClick={closeModal}>
@@ -88,34 +94,37 @@ function Favoritos(props: any) {
             </button>
           </div>
 
+          {/* Contenedor de los productos */}
           <div className={styles.cards_container}>
-          {favorites.map((item: ICatalogue) => (
-            <div key={item.id} className={styles.fav_cards}>
-              <img
-                className={styles.fav_image}
-                alt="item_image"
-                src={item.image}
-              />
-              <div className={styles.fav_info}>
-                <p>{item.name}</p>
-                <p>{item.price} COP</p>
-              </div>
+            {/* Tarjetas para cada producto */}
+            {favorites.map((item: ICatalogue) => (
+              <div key={item.id} className={styles.fav_cards}>
+                <img
+                  className={styles.fav_image}
+                  alt="item_image"
+                  src={item.image}
+                />
+                <div className={styles.fav_info}>
+                  <p>{item.name}</p>
+                  <p>{item.price} COP</p>
+                </div>
 
-              <div className={styles.buttons_container}>
+                <div className={styles.buttons_container}>
+                  {/* Botón de compra whatsapp */}
+                  <a className={`${styles.buttons} ${styles.shop_button}`} href={`${link} ${item.name}`} target="_blank" rel="noreferrer"> 
+                    <BiShoppingBag />
+                  </a>
 
-                <a className={`${styles.buttons} ${styles.shop_button}`} href={`${link} ${item.name}`} target="_blank" rel="noreferrer"> 
-                  <BiShoppingBag />
-                </a>
-
-                <button 
-                  className={`${styles.buttons} ${styles.delete_button}`}
-                  onClick={() => FavoriteEnable(item)}
-                >
-                  <BsFillTrash3Fill />
-                </button>
-              </div>
-            </div>  
-          ))}
+                  {/* Botón para eliminar favorito */}
+                  <button 
+                    className={`${styles.buttons} ${styles.delete_button}`}
+                    onClick={() => deleteItem(item)}
+                  >
+                    <BsFillTrash3Fill />
+                  </button>
+                </div>
+              </div>  
+            ))}
           </div>
         </>
       </Modal>
