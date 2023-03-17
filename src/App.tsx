@@ -6,8 +6,8 @@ import Styles from "./App.module.css"
 function App() {
   return (
     <div className={Styles.main}>
-      <Navbar/>
-      <Banner/>
+      <Navbar />
+      <Banner />
       <Catalogue />
     </div>
   );

@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import styles from "./Favorites.module.css"
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { BsFillTrash3Fill } from 'react-icons/bs'
+import { BsFillTrash3Fill, BsCartCheckFill } from 'react-icons/bs'
 import { BiShoppingBag } from 'react-icons/bi'
 
 
@@ -23,7 +23,9 @@ function Favoritos(props: any) {
   // Creamos los estados que usamos para actualizar el modal y los productos que se mostraran en él.
   const [favorites, setFavorites] = useState<ICatalogue[]>([])
   const [catalogue, setCatalogue] = useState<ICatalogue[]>([])
+  const [text, setText] = useState("")
   const [deleted, setDeleted] = useState(false)
+
 
   // Creamos una constante la cual guardara el link base de whatsapp con el que luego enviaremos un mensaje al vendedor.
   const link = "https://api.whatsapp.com/send?phone=+573054106917&text=Hola,+estoy+interesad@+en+esté+producto:"
@@ -32,11 +34,9 @@ function Favoritos(props: any) {
   // Usamos dos useEffect para traer los productos desde el localStorage y actualizar la lista dependiendo de la interacción del usuario.
   useEffect(() =>{
     getFavorites()
-  },[modalIsOpen])
 
-  useEffect(() =>{
-    getFavorites()
-  },[deleted])
+    // eslint-disable-next-line
+  },[modalIsOpen, deleted])
 
 
   // Creamos la función encargada de traer los productos desde el localStorage y con la cual actualizamos los estados anteriores. 
@@ -45,6 +45,9 @@ function Favoritos(props: any) {
     const newItemsParse = JSON.parse(newItemsStringify)
     const favoriteItems = newItemsParse.filter((item: any) => item.favorite)
 
+    shopAll(favoriteItems)
+
+    
     setFavorites(favoriteItems)
     setCatalogue(newItemsParse)
   }
@@ -67,6 +70,7 @@ function Favoritos(props: any) {
       }
     });
 
+    shopAll(favorites)
     // Actualizamos el estado "deleted" para que se actualice la lista que se nuestra en el modal.
     setDeleted(!deleted)
     //seteamos el catalogo con todos los productos actualizados con likes o no.
@@ -74,6 +78,16 @@ function Favoritos(props: any) {
     // Guardamos en el localStorage el nuevo catalogo con los likes actualizados.
     localStorage.setItem("CatalogueFav", JSON.stringify(deleteFav))
   };
+
+  
+  const shopAll = (favs: ICatalogue[]) =>{
+
+    let products = favs.map((item: ICatalogue) =>{
+      return item.name
+    })
+
+    setText(products.join(', '))
+  }
 
 
   return (
@@ -83,12 +97,13 @@ function Favoritos(props: any) {
         overlayClassName={styles.Overlay}
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Example Modal"
+        ariaHideApp={false}
+        contentLabel="Selected Option"
       >
         <>
           {/* Header del modal */}
           <div className={styles.modal_header}>
-            <h2>Mirá tus favoritos!</h2>
+            <h2>Mira tus favoritos!</h2>
             <button className={styles.close_button} onClick={closeModal}>
               <AiOutlineCloseCircle />
             </button>
@@ -111,7 +126,12 @@ function Favoritos(props: any) {
 
                 <div className={styles.buttons_container}>
                   {/* Botón de compra whatsapp */}
-                  <a className={`${styles.buttons} ${styles.shop_button}`} href={`${link} ${item.name}`} target="_blank" rel="noreferrer"> 
+                  <a 
+                    className={`${styles.buttons} ${styles.shop_button}`} 
+                    href={`${link} ${item.name}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                  > 
                     <BiShoppingBag />
                   </a>
 
@@ -125,6 +145,17 @@ function Favoritos(props: any) {
                 </div>
               </div>  
             ))}
+          </div>
+
+          <div className={styles.modal_footer}>
+            <a
+              href={`${link} ${text}`}
+              className={(favorites.length? styles.shop_all : styles.inactive)}
+              target="_blank" 
+              rel="noreferrer"
+            >
+              <BsCartCheckFill />
+            </a>
           </div>
         </>
       </Modal>

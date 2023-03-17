@@ -99,6 +99,10 @@
   transition: .3s ease;
 }
 
+.wh_button{
+  color: black;
+}
+
 .like_button:hover {
   transform: rotate(360deg);
 }

@@ -54,33 +54,25 @@ const Catalogue = () => {
     }, 200)
     // eslint-disable-next-line
   },[]) 
+  
 
-
-  useEffect(() => { 
+  useEffect(() => {
     //resivimos el catalogo cada vez que catalogueFav cambie
     const getallcatalogue = localStorage.getItem('CatalogueFav') || JSON.stringify(Fav)
     setfilteredTargets(JSON.parse(getallcatalogue))
-    // eslint-disable-next-line
-  }, [catalogueFav])
-  
 
-  useEffect(() => {
     //cada vez que search cambie ejecutamos el filtro
     filterProducts();
-    // eslint-disable-next-line
-  }, [Search])
-  
-  useEffect(() => {
+
     //cada vez que select cambie ejecutamos el filtro
     filterProducts()
-    // eslint-disable-next-line
-  }, [select])
-  
-  useEffect(() => { 
+
     //para cuando el catalogo cambie sigan los filtros
-    filterProducts()    
+    filterProducts()   
+
     // eslint-disable-next-line
-  }, [catalogueFav])
+  }, [Search, select, catalogueFav])
+  
 
 
   useEffect(() => {
@@ -198,19 +190,6 @@ const Catalogue = () => {
       newFilteredTargets = JSON.parse(catalogueFav).filter((item: ICatalogue) => (  
         item.name.toLowerCase() === filterActive.toLowerCase()
       ))
-
-      // newFilteredTargets = JSON.parse(catalogueFav).filter((item: ICatalogue) => {
-      //   //hacemos una constante filterName que va ser igual al item.name de el catalogo
-      //   const filteredName = item.name.toLowerCase();
-      //   //hacemos una constante filterSelected que va ser igual al estado de filterActive
-      //   const filterSelected = filterActive.toLowerCase();
-      //   if (filteredName === filterSelected) {
-      //     console.log("coincide");
-      //   } else {
-      //     console.log("no coincide");
-      //   }
-      //   return filteredName === filterSelected
-      // });
     }
 
     //seteamos setfilteredTargets para poder mapear con los nuevos filtros
