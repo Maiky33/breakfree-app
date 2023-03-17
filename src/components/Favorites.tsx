@@ -69,6 +69,7 @@ function Favoritos(props: any) {
         return item;
       }
     });
+    
 
     shopAll(favorites)
     // Actualizamos el estado "deleted" para que se actualice la lista que se nuestra en el modal.
@@ -128,7 +129,7 @@ function Favoritos(props: any) {
                   {/* Botón de compra whatsapp */}
                   <a 
                     className={`${styles.buttons} ${styles.shop_button}`} 
-                    href={`${link} ${item.name}`} 
+                    href={`${link} *${item.name}*`} 
                     target="_blank" 
                     rel="noreferrer"
                   > 
@@ -149,7 +150,7 @@ function Favoritos(props: any) {
 
           <div className={styles.modal_footer}>
             <a
-              href={`${link} ${text}`}
+              href={`${link} *${text}*`}
               className={(favorites.length? styles.shop_all : styles.inactive)}
               target="_blank" 
               rel="noreferrer"
