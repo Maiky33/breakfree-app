@@ -4,6 +4,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { BsWhatsapp } from 'react-icons/bs'
 import styles from "../components/Navbar.module.css";
 import Favoritos from "./Favorites";
+import Logo from './images/catalogueImages/Logo.png'
+
 
 
 const Navbar = () => {
@@ -35,9 +37,8 @@ const Navbar = () => {
     <>
       <div className={styles.navbar}>
         {/* Logo Desktop */}
-        <div className={`${styles.logo_container} ${styles.logo_desktop}`}>
-          BREAK FREE
-        </div>
+
+        <img src={Logo} alt=" " className={`${styles.logo_container} ${styles.logo_desktop}`}/>
 
         {/* Logo mobile */}
         <div

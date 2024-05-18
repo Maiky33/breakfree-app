@@ -11,8 +11,7 @@
 }
 
 .logo_container{
-  background-color: black;
-  height: 40px;
+  height: auto;
   width: 150px;
   color: white;
   display: grid;
