@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/breakfree-app/static/css/main.d23c8fda.css",
-    "main.js": "/breakfree-app/static/js/main.7214696e.js",
+    "main.css": "/breakfree-app/static/css/main.b067a5a5.css",
+    "main.js": "/breakfree-app/static/js/main.a0a5fbe7.js",
+    "static/media/Logo.png": "/breakfree-app/static/media/Logo.d02d8c6b5141917a2b37.png",
     "static/media/SlideThree.jpg": "/breakfree-app/static/media/SlideThree.b15c02f55448ddb0bca8.jpg",
     "static/media/SlideOne.jpg": "/breakfree-app/static/media/SlideOne.bcc6ab2e85068d2f0064.jpg",
     "static/media/FristClothe.png": "/breakfree-app/static/media/FristClothe.99c968b5e49ad5cb9074.png",
@@ -11,11 +12,11 @@
     "static/media/ThreeClothe.png": "/breakfree-app/static/media/ThreeClothe.73797d37864e145045a6.png",
     "static/media/SlideTwo.jpg": "/breakfree-app/static/media/SlideTwo.55c546d8033a2cf3f2f3.jpg",
     "index.html": "/breakfree-app/index.html",
-    "main.d23c8fda.css.map": "/breakfree-app/static/css/main.d23c8fda.css.map",
-    "main.7214696e.js.map": "/breakfree-app/static/js/main.7214696e.js.map"
+    "main.b067a5a5.css.map": "/breakfree-app/static/css/main.b067a5a5.css.map",
+    "main.a0a5fbe7.js.map": "/breakfree-app/static/js/main.a0a5fbe7.js.map"
   },
   "entrypoints": [
-    "static/css/main.d23c8fda.css",
-    "static/js/main.7214696e.js"
+    "static/css/main.b067a5a5.css",
+    "static/js/main.a0a5fbe7.js"
   ]
 }
